@@ -306,12 +306,14 @@ void model_compile(MLP* model, Optimizer* optimize, char* loss, char* metrics) {
     model->compiler = (Model_Compiler*)malloc(sizeof(Model_Compiler));
     model->compiler->optimize = optimize;
     int i;
-    model->compiler->optimize->pre_velocity = (Weights**)calloc(model->num_layers, sizeof(Weights*));
-    for (i = 1; i < model->num_layers; i++)
-        model->compiler->optimize->pre_velocity[i] = init_weights(model->num_units[i - 1], model->num_units[i], 0);
-    model->compiler->optimize->accumulator_grad = (Weights**)calloc(model->num_layers, sizeof(Weights*));
-    for (i = 1; i < model->num_layers; i++)
-        model->compiler->optimize->accumulator_grad[i] = fill_weights(model->num_units[i - 1], model->num_units[i], model->compiler->optimize->init_accumulator_grad);
+	if (model->compiler->optimize) {
+	model->compiler->optimize->pre_velocity = (Weights**)calloc(model->num_layers, sizeof(Weights*));
+	for (i = 1; i < model->num_layers; i++)
+		model->compiler->optimize->pre_velocity[i] = init_weights(model->num_units[i - 1], model->num_units[i], 0);
+	model->compiler->optimize->accumulator_grad = (Weights**)calloc(model->num_layers, sizeof(Weights*));
+	for (i = 1; i < model->num_layers; i++)
+		model->compiler->optimize->accumulator_grad[i] = fill_weights(model->num_units[i - 1], model->num_units[i], model->compiler->optimize->init_accumulator_grad);
+	}
     if (!strcmp(loss, "mse")) model->compiler->loss_type = 1;
     else if (!strcmp(loss, "binary_crossentropy")) model->compiler->loss_type = 2;
     else if (!strcmp(loss, "categorical_crossentropy")) model->compiler->loss_type = 3;
