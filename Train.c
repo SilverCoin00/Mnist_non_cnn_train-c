@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "D:\Data\code_doc\AI_model_building\Multi-layer_perceptron\Core.h"
-#include "D:\Std_gcc_&_g++_plus\stb_image_supporting.c"
+#include "Core.h"
+#include "stb_image_supporting.c"
 
 int main() {
     /*trans_images_to_csv("D:\\Data\\mnist_non_cnn_training\\archive\\trainingSet\\trainingSet", 1, 10, 
